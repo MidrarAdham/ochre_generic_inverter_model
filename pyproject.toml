@@ -10,7 +10,8 @@ requires-python = ">=3.12,<3.13"
 dependencies = [
     "ochre-nrel (>=0.9.2,<0.10.0)",
     "numpy (>=1.26,<2.0)",
-    "pytest (>=9.1.1,<10.0.0)"
+    "pytest (>=9.1.1,<10.0.0)",
+    "helics (>=3.6.1,<4.0.0)"
 ]
 
 
