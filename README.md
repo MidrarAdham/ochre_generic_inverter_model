@@ -54,3 +54,12 @@ import inverter
 ```
 python demo.py figures
 ```
+### HELICS co-simulation test
+The `cosim` folder connects an OCHRE dwelling (with an `InverterBattery` on the IEEE 1547 Cat. B volt-VAr curve) to a minimal GridLAB-D feeder through a HELICS broker. GridLAB-D sends the house voltage, and OCHRE sends back the house P + jQ. The swing voltage sweeps 0.90 -> 1.10 -> 0.90 p.u. over 4 hours at 1-minute steps.
+
+Requires `gridlabd` (with the HELICS connection module) and `helics_broker` on PATH.
+```
+python cosim/run_cosim.py      # run once, results and logs in cosim/output/
+pytest cosim/test_cosim.py     # run and check the results
+python cosim/plot_cosim.py     # figures in cosim/figures/ (runs the co-simulation if needed)
+```
