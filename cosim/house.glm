@@ -1,0 +1,80 @@
+// HELICS (see the gld_helics_config.json):
+//   publishes  house_meter.voltage_12  (V, ~240 V nominal)
+//   subscribes ochre_house.constant_power_12    (VA, P + jQ from OCHRE)
+
+module powerflow {
+	solver_method NR;
+}
+module connection;
+module tape;
+
+clock {
+	timezone PST+8PDT;
+	starttime '2018-01-01 00:00:00';
+	stoptime '2018-01-01 04:00:00';
+}
+
+object helics_msg {
+	name gld_federate;
+	configure gld_helics_config.json;
+}
+
+object node {
+	name substation;
+	bustype SWING;
+	phases AN;
+	nominal_voltage 7200;
+	voltage_A 7200+0j;
+	object player {
+		property voltage_A;
+		file swing_voltage.player;
+	};
+}
+
+object transformer_configuration {
+	name pole_top_config;
+	connect_type SINGLE_PHASE_CENTER_TAPPED;
+	install_type POLETOP;
+	primary_voltage 7200;
+	secondary_voltage 120;
+	power_rating 25;
+	powerA_rating 25;
+	resistance 0.01;
+	reactance 0.03;
+}
+
+object transformer {
+	name pole_top;
+	phases AS;
+	from substation;
+	to house_meter;
+	configuration pole_top_config;
+}
+
+object triplex_meter {
+	name house_meter;
+	phases AS;
+	nominal_voltage 120;
+}
+
+object triplex_load {
+	name ochre_house;
+	parent house_meter;
+	phases AS;
+	nominal_voltage 120;
+	constant_power_12 0+0j;
+}
+
+object recorder {
+	parent house_meter;
+	property voltage_12;
+	file output/gld_voltage.csv;
+	interval 60;
+}
+
+object recorder {
+	parent ochre_house;
+	property constant_power_12;
+	file output/gld_load.csv;
+	interval 60;
+}

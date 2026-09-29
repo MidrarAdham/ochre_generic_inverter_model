@@ -1,0 +1,24 @@
+{
+    "name": "GridLABD_Federate",
+    "coreType": "zmq",
+    "coreInitString": "--federates=1",
+    "period": 60.0,
+    "uninterruptible": false,
+    "terminate_on_error": true,
+    "publications": [
+        {
+            "global": true,
+            "key": "house_meter.voltage_12",
+            "type": "complex",
+            "info": "{\"object\": \"house_meter\", \"property\": \"voltage_12\"}"
+        }
+    ],
+    "subscriptions": [
+        {
+            "key": "ochre_house.constant_power_12",
+            "type": "complex",
+            "required": true,
+            "info": "{\"object\": \"ochre_house\", \"property\": \"constant_power_12\"}"
+        }
+    ]
+}

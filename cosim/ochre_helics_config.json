@@ -1,0 +1,23 @@
+{
+    "name": "OCHRE_Federate",
+    "coreType": "zmq",
+    "coreInitString": "--federates=1",
+    "period": 60.0,
+    "uninterruptible": true,
+    "wait_for_current_time_update": true,
+    "terminate_on_error": true,
+    "publications": [
+        {
+            "global": true,
+            "key": "ochre_house.constant_power_12",
+            "type": "complex"
+        }
+    ],
+    "subscriptions": [
+        {
+            "key": "house_meter.voltage_12",
+            "type": "complex",
+            "required": true
+        }
+    ]
+}
